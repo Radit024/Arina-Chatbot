@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arina AI</title>
+    <link rel="stylesheet" href="arina-ui/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="icon" href="arina-ui/images/favicon.ico">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Security Library to Prevent XSS (Recommended) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.8/purify.min.js"></script>
+
+</head>
+
+<body class="light-mode">
+
+    <div id="mobileOverlay">Arina AI currently does not support mobile or small window view.</div>
+    
+    <div class="profile-container">
+        <span class="greeting-text">Hello, {user}!</span>
+        <div class="profile-placeholder">
+            <img class="user-profile-pic" src="https://avataaars.io/" alt="User Profile Picture" />
+        </div>
+        
+        <!-- Profile Popup -->
+        <div class="profile-popup" id="profilePopup">
+            <ul>
+                <li><strong id="profileUserName">{user}</strong></li> <!-- Dynamic user name -->
+                <li><a href="#profile">View Profile</a></li>
+                <li><a href="#settings">Settings</a></li>
+                <li><a href="#logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h1><a href="https://github.com/adsurkasur/ArinaAI" style="text-decoration: none; color: inherit;">Arina AI</a></h1>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="https://radit024.github.io/Landingpage-Arina/">Home</a></li>
+            <li><a href="#chat">Chat</a></li>
+            <li>
+                <a href="#features" id="featuresToggle">Features <span class="arrow">&#9662;</span></a>
+                <ul class="submenu">
+                    <li>
+                        <a href="#manufacture" id="manufactureToggle">Manufacture <span class="arrow">&#9662;</span></a>
+                        <ul class="submenu">
+                            <li><a href="#BFA">Business Feasibility Analysis</a></li>
+
+                            <li><a href="#DF">Forecasting</a></li>
+                            <li><a href="#MM">Maximization and Minimization Analysis</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#cultivation" id="cultivationToggle">Cultivation <span class="arrow">&#9662;</span></a>
+                        <ul class="submenu">
+                            <li><a href="#seasonal">Seasonal Commodity Analysis</a></li>
+                            <li><a href="#annual">Annual Commodity Analysis</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#BMC">Business Model Canvas</a></li>
+                    <li><a href="#SWOT">SWOT Analysis</a></li>
+                </ul>
+            </li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <!-- Viewing Mode Toggle-->
+        <div class="viewing-mode-container">
+            <span>Viewing Mode</span>
+            <label class="switch">
+                <input type="checkbox" id="themeToggle">
+                <span class="slider round"></span>
+            </label>
+        </div>
+
+        <!-- Footer-->
+        <footer>
+            <p>created by adsurkasur</p>
+            <div class="footer-icons">
+                <a href="https://twitter.com/adsurkasur" target="_blank"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://github.com/adsurkasur" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Toggle Button -->
+    <button id="toggleSidebar" class="sidebar-toggle">
+        <i class="fas fa-chevron-right"></i> <!-- Arrow icon -->
+    </button>
+
+    <div id="mainContent">
+        <div id="chatPage" class="page">
+            <div class="chat-wrapper"> <!-- Wrapper to group centered elements -->
+                <div class="greeting-container" style="text-align: center; margin-bottom: 20px;">
+                    <h2 class="typing-greeting"><span id="greeting-text"></span><span class="blinking-cursor"></span></h2>
+                </div>
+                
+                <main>
+                    <div class="chat-container">
+                        <div id="chatBox" class="chat-box"></div>
+                        <div class="input-container">
+                            <textarea id="chatInput" placeholder="Type a message..."></textarea> <!-- Ensure input is enabled -->
+                            <button id="sendButton" disabled>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <div id="featuresPage" class="page">
+            <div class="content">
+                <h1>This is #features page</h1>
+            </div>
+        </div>
+
+        <div id="manufacturePage" class="page">
+            <div class="content">
+                <h1>This is #manufacture page</h1>
+            </div>
+        </div>
+
+        <div id="BFAPage" class="page">
+            <div class="aku-container content">
+                <header>
+                    <h2>AKU - Analisis Kelayakan Usaha</h2>
+                </header>
+            
+                <div class="container">
+                    <h2 class="bold">Input Data</h2>
+            
+                    <div class="form-group">
+                        <label>Investment Cost (Biaya Investasi)
+                            <button class="info-btn" data-info="
+                            📌 <strong>Apa itu Investment Cost?</strong><br><br>
+                            Investment Cost adalah biaya awal yang harus dikeluarkan untuk memulai bisnis sebelum bisnis mulai beroperasi dan menghasilkan pendapatan. Biaya ini umumnya termasuk pembelian aset, peralatan, modal kerja, dan perizinan usaha.<br><br>
+                            
+                            💡 <strong>Contoh Investment Cost:</strong><br>
+                            &bull; Pembelian mesin produksi untuk usaha manufaktur.<br>
+                            &bull; Renovasi tempat usaha, seperti restoran atau toko.<br>
+                            &bull; Biaya pendaftaran dan perizinan usaha.<br>
+                            &bull; Pembelian stok awal bahan baku sebelum bisnis berjalan.<br><br>
+                            
+                            📢 <strong>Catatan:</strong> Investment Cost biasanya dibayarkan satu kali di awal dan tidak termasuk dalam biaya operasional bulanan.
+                            ">ⓘ</button>
+                        </label>
+                        <div class="input-with-button">
+                            <input type="number" id="investment" placeholder="Klik tombol [Tambahkan]..." readonly>
+                            <button class="btn-tambah" onclick="openTablePopup('investment')">Tambahkan</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Operational Cost per Bulan (Biaya Operasional per Bulan)
+                            <button class="info-btn" data-info="
+                            📌 <strong>Apa itu Operational Cost?</strong><br><br>
+                            Operational Cost adalah biaya yang harus dikeluarkan setiap bulan untuk menjalankan bisnis. Ini mencakup semua pengeluaran rutin yang dibutuhkan agar usaha bisa terus berjalan.<br><br>
+                            
+                            💡 <strong>Contoh Biaya Operasional:</strong><br>
+                            &bull; Gaji karyawan.<br>
+                            &bull; Bahan baku untuk produksi.<br>
+                            &bull; Listrik, air, dan internet.<br>
+                            &bull; Sewa tempat usaha.<br><br>
+                            
+                            📢 <strong>Catatan:</strong> Biaya operasional berbeda dari investasi awal karena dikeluarkan secara berkala (bulanan).
+                            ">ⓘ</button>
+                        </label>
+                        <div class="input-with-button">
+                            <input type="number" id="operational" placeholder="Klik tombol [Tambahkan]..." readonly>
+                            <button class="btn-tambah" onclick="openTablePopup('operational')">Tambahkan</button>
+                        </div>
+                    </div>        
+            
+                    <div class="form-group">
+                        <label>Biaya Produksi per Unit 
+                            <button class="info-btn" data-info="
+                            📌 <strong>Apa itu Biaya Produksi per Unit?</strong><br><br>
+                            Biaya produksi per unit adalah biaya yang harus dikeluarkan untuk memproduksi satu unit barang atau jasa. Ini mencakup semua biaya langsung yang terkait dengan produksi.<br><br>
+                            
+                            💡 <strong>Komponen Biaya Produksi per Unit:</strong><br>
+                            &bull; Bahan baku, seperti tepung dan gula untuk produksi roti.<br>
+                            &bull; Tenaga kerja langsung.<br>
+                            &bull; Biaya listrik atau penggunaan mesin.<br><br>
+                            
+                            💡 <strong>Contoh:</strong> Jika biaya bahan baku dan produksi satu roti adalah Rp 15.000, maka Rp 15.000 adalah biaya produksi per unit.<br><br>
+                            
+                            📢 <strong>Catatan:</strong> Pastikan harga jual lebih tinggi dari biaya produksi agar bisnis tidak merugi!
+                            ">ⓘ</button>
+                        </label>
+                        <input type="number" id="biayaProduksi" placeholder="Masukkan biaya produksi per unit...">
+                    </div>
+            
+                    <div class="form-group">
+                        <label>Volume Penjualan per Bulan 
+                            <button class="info-btn" data-info="
+                            📌 <strong>Apa itu Volume Penjualan per Bulan?</strong><br><br>
+                            Volume penjualan per bulan adalah jumlah unit produk yang diperkirakan terjual dalam satu bulan. Angka ini penting karena menentukan total pendapatan dan profitabilitas usaha.<br><br>
+                            
+                            💡 <strong>Cara Menentukan Volume Penjualan:</strong><br>
+                            &bull; Gunakan data penjualan sebelumnya (jika bisnis sudah berjalan).<br>
+                            &bull; Lakukan riset pasar untuk memperkirakan permintaan.<br>
+                            &bull; Sesuaikan dengan kapasitas produksi agar bisa memenuhi target penjualan.<br><br>
+                            
+                            💡 <strong>Contoh:</strong> Jika bisnis kamu menjual 500 botol jus buah setiap bulan, maka volume penjualan per bulan adalah 500 unit.<br><br>
+                            
+                            📢 <strong>Catatan:</strong> Jika volume penjualan meningkat, maka profit juga meningkat, tetapi pastikan bisnis mampu memenuhi permintaan pasar!
+                            ">ⓘ</button>
+                        </label>
+                        <input type="number" id="volume" placeholder="Masukkan volume penjualan per bulan...">
+                    </div>
+            
+                    <div class="form-group">
+                        <label>Markup (%) 
+                            <button class="info-btn" data-info="
+                            📌 <strong>Apa itu Markup?</strong><br><br>
+                            Markup adalah persentase keuntungan yang ditambahkan ke biaya produksi untuk menentukan harga jual.<br><br>
+                    
+                            💡 <strong>Cara Menghitung:</strong><br>
+                            Harga Jual = Biaya Produksi + (Markup% × Biaya Produksi)<br><br>
+                    
+                            📢 <strong>Catatan:</strong> 
+                            - Markup yang terlalu rendah bisa membuat bisnis merugi.<br>
+                            - Markup yang terlalu tinggi bisa membuat produk sulit bersaing di pasar.
+                            ">ⓘ</button>
+                        </label>
+                        <input type="number" id="markup" placeholder="Masukkan persentase markup...">
+                    </div>
+            
+                    <button onclick="hitungAnalisis()" class="btn-hitung">Hitung</button>
+                    <button onclick="exportToXlsx()" class="btn-export">Ekspor ke XLSX</button>
+                    <input type="file" id="fileInput" accept=".xlsx" style="display: none;" onchange="importFromXlsx(event)">
+                    <button onclick="document.getElementById('fileInput').click()" class="btn-import">Impor dari XLSX</button>
+            
+                    <h2 class="hasil-analisis">Hasil Analisis</h2>
+                    <button onclick="toggleFormatBep()" class="btn-toggle">Ubah Format BEP</button>
+                    <table>
+                        <tr><td>Harga Pokok Produksi (HPP) per unit</td><td id="hpp">-</td></tr>
+                        <tr><td>Harga Jual per Unit</td><td id="hargaJual">-</td></tr>
+                        <tr><td>Revenue (Pendapatan)</td><td id="revenue">-</td></tr>
+                        <tr><td>Profit (Laba Bersih)</td><td id="profit">-</td></tr>
+                        <tr><td>ROI (Return on Investment)</td><td id="roi">-</td></tr>
+                        <tr><td>BEP (Break Even Point)</td><td id="bep">-</td></tr>
+                        <tr><td>Payback Period</td><td id="pp">-</td></tr>
+                        <tr><td>Profit Margin</td><td id="profit-margin">-</td></tr>
+                        <p><strong>Metode Perhitungan:</strong> <span id="metode"></span></p>
+                    </table>
+                </div>
+            
+                <!-- Pop-up -->
+                <div id="popup">
+                    <div id="popup-content">
+                        <span id="close-popup"><i class="fas fa-times"></i></span>
+                        <p id="popup-text"></p>
+                    </div>
+                </div>
+            
+                <!-- Pop-up Info -->
+                <div id="popupInfo" class="popup hidden">
+                    <div class="popup-content">
+                        <button id="closePopup" class="close">
+                            <i class="fas fa-xmark"></i>
+                        </button>
+                        <p id="popupText">Isi informasi di sini...</p>
+                    </div>
+                </div>
+            
+                <!-- Pop-up Investment Cost -->
+                <div id="investmentPopup" class="popup hidden">
+                    <div class="popup-content">
+                        <span class="close" onclick="closeTablePopup('investmentPopup')">&times;</span>
+                        <h2 class="bold">Investment Cost (Biaya Investasi)</h2>
+                        <button class="btn-tambah" onclick="addRow('investmentTable')">Tambah Baris</button>
+                        <table id="investmentTable">
+                            <thead>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>Kuantitas</th>
+                                    <th>Harga (Rp)</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            
+                <!-- Pop-up Operational Cost -->
+                <div id="operationalPopup" class="popup hidden">
+                    <div class="popup-content">
+                        <span class="close" onclick="closeTablePopup('operationalPopup')">&times;</span>
+                        <h2 class="bold">Operational Cost per Bulan (Biaya Operasional per Bulan)</h2>
+                        <button class="btn-tambah" onclick="addRow('operationalTable')">Tambah Baris</button>
+                        <table id="operationalTable">
+                            <thead>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>Kuantitas</th>
+                                    <th>Harga (Rp)</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            
+            
+                <!-- Footer -->
+                <footer class="text-center mt-5 text-gray-700">
+                    <p>Dibuat oleh adsurkasur (dengan bantuan AI)</p>
+                    <div class="footer-icons flex justify-center mt-2 space-x-3">
+                        <a href="https://twitter.com/adsurkasur" target="_blank">
+                            <i class="fab fa-x-twitter"></i> <!-- Ikon Twitter sesuai referensi -->
+                        </a>
+                        <a href="https://github.com/adsurkasur" target="_blank">
+                            <i class="fab fa-github"></i> <!-- Ikon GitHub -->
+                        </a>
+                    </div>
+                </footer>
+            
+                <script src="script.js"></script>
+            </div>
+          </div>
+
+        <div id="DFPage" class="page">
+            <div class="content">
+                <h1>This is #DF page</h1>
+            </div>
+        </div>
+
+        <div id="MMPage" class="page">
+            <div class="content">
+                <h1>This is #MM page</h1>
+            </div>
+        </div>
+
+        <div id="cultivationPage" class="page">
+            <div class="content">
+                <h1>This is #cultivation page</h1>
+            </div>
+        </div>
+
+        <div id="seasonalPage" class="page">
+            <div class="content">
+                <h1>This is #seasonal page</h1>
+            </div>
+        </div>
+
+        <div id="annualPage" class="page">
+            <div class="content">
+                <h1>This is #annual page</h1>
+            </div>
+        </div>
+
+        <div id="BMCPage" class="page">
+            <div class="content">
+                <h1>This is #BMC page</h1>
+            </div>
+        </div>
+
+        <div id="SWOTPage" class="page">
+            <div class="content">
+                <h1>This is #SWOT page</h1>
+            </div>
+        </div>
+
+        <div id="aboutPage" class="page">
+            <div class="content">
+                <h1>This is #about page</h1>
+            </div>
+        </div>
+
+        <div id="contactPage" class="page">
+            <div class="content">
+                <h1>This is #contact page</h1>
+            </div>
+        </div>
+    </div>
+
+    <script src="arina-ui/scripts/chat.js"></script>
+    <script src="arina-ui/scripts/style.js"></script>
+    <script src="arina-ui/scripts/typing.js"></script> 
+    <script src="arina-ui/scripts/no_mobile_view.js"></script>
+    <script src="arina-ui/scripts/sidebar.js"></script>
+    <script src="arina-ui/scripts/user_profile.js"></script>
+    <script src="arina-ui/scripts/set_default_hash.js"></script>
+    <script src="arina-ui/scripts/hash_handler.js"></script>
+    <script src="arina-ui/scripts/bfa.js"></script>
+</body>
+</html>

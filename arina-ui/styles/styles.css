@@ -1,0 +1,1015 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    font-family: "Rubik", sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0; /* Remove body margin to prevent gaps */
+    padding: 0; /* Remove body padding */
+    overflow-y: auto; /* Allow vertical scrolling if needed */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Stretch to fill the viewport */
+    height: 100vh; /* Full height of the viewport */
+}
+
+.light-mode {
+    background: rgb(245, 245, 245);
+    color: #333;
+    --chat-bg: white; /* Light background */
+    --header-bg: #4caf50; 
+    --input-bg: #f5f5f5;
+    --input-text: black;
+    --send-btn-bg: #4caf50;
+    --send-btn-text: white;
+    --overlay-bg: rgba(245, 245, 245, 0.9); /* Light mode: semi-transparent white */
+    --divider-color: rgba(0, 0, 0, 0.1); /* Light gray for light mode */
+    --placeholder-color: #aaa; /* Light gray for placeholder text */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode {
+    background: rgb(18, 18, 18);
+    color: #eee;
+    --chat-bg: rgb(34, 34, 34); /* Dark background */
+    --header-bg: #222;
+    --input-bg: #333;
+    --input-text: white;
+    --send-btn-bg: #4caf50;
+    --send-btn-text: white;
+    --overlay-bg: rgba(18, 18, 18, 0.9); /* Dark mode: semi-transparent black */
+    --divider-color: rgba(255, 255, 255, 0.1); /* Light white for dark mode */
+    --placeholder-color: #5e5e5e; /* Light gray for placeholder text */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.viewing-mode-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between text and switch */
+}
+
+/* Chat container centered */
+.chat-container {
+    width: 80%; /* Adjust to 80% of the viewport width */
+    min-width: 600px; /* Increase minimum width */
+    max-width: 1000px; /* Increase max width */
+    background-color: var(--chat-bg);
+    padding: 10px 10px 1px 10px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth fade transition */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    margin: 0 auto; /* Center the chat container horizontally */
+}
+
+.chat-box {
+    height: 60vh; /* Increase height */
+    max-height: 80vh; /* Adjust height to be relative to viewport height */
+    width: 100%; /* Increase width */
+    max-width: 100%; /* Ensure it takes full width */
+    overflow-y: auto;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    background: var(--input-bg);
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth fade transition */
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: var(--send-btn-bg) var(--input-bg); /* For Firefox */
+    padding: 10px; /* Ensure equal padding on all sides */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+/* Chat bubble styles */
+.message {
+    max-width: 80%;
+    padding: 12px;
+    border-radius: 20px;
+    margin: 5px 0;
+    word-wrap: break-word;
+    display: flex;
+    align-items: flex-start; /* Align items at the top */
+}
+
+.message.bot {
+    background-color: var(--chat-bg); /* Slightly darker than chatbox */
+    color: var(--input-text);
+    border-radius: 20px 20px 20px 4px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth fade transition */
+}
+
+.message.user {
+    background: #4caf50;
+    color: white;
+    align-self: flex-end;
+    border-radius: 20px 20px 4px 20px;
+}
+
+.message .profile-container {
+    display: flex;
+    align-items: center;
+}
+
+.message .profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    flex-shrink: 0; /* Prevent the image from shrinking */
+}
+
+.message span {
+    display: inline; /* Prevents stretching */
+}
+
+.message p,
+.message pre,
+.message blockquote {
+    margin: 0; /* Remove extra space around block elements */
+    display: inline; /* Forces block elements to behave like inline */
+}
+
+.message code {
+    background: rgba(0, 0, 0, 0.1); /* Light background for code */
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-size: 0.95em;
+}
+
+.message .profile-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px; /* Add margin to separate from chat bubble */
+}
+
+.message .profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.message .profile-name {
+    font-weight: bold;
+}
+
+.user {
+    background: #4caf50;
+    color: white;
+    align-self: flex-end;
+    border-radius: 20px 20px 4px 20px;
+    align-items: flex-end;
+}
+
+.user .profile-container {
+    justify-content: flex-end;
+}
+
+.bot {
+    background-color: var(--chat-bg); /* Slightly darker than chatbox */
+    color: var(--input-text);
+    border-radius: 20px 20px 20px 4px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth fade transition */
+}
+
+.error {
+    background: #ff4d4d;
+    color: white;
+    align-self: center;
+    text-align: center;
+    border-radius: 20px;
+    max-width: 90%;
+}
+
+h2.greeting {
+    font-size: 32px; /* Larger font size for the new greeting */
+    margin-bottom: 20px; /* Add margin below the new greeting */
+}
+
+.input-container {
+    display: flex;
+    border-radius: 10px; /* Sharper corners */
+    overflow: hidden;
+    background-color: var(--input-bg);
+    padding: 5px;
+    margin: 10px auto; /* Center the input container */
+    transition: background-color 0.3s ease; /* Smooth fade transition */
+    width: 100%; /* Ensure input container takes full width */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    justify-content: space-between; /* Ensure equal spacing */
+}
+
+textarea {
+    flex-grow: 1;
+    border: none;
+    padding: 12px;
+    border-radius: 10px; /* Sharper corners */
+    outline: none;
+    color: var(--input-text);
+    background-color: var(--input-bg);
+    transition: background-color 0.3s ease; /* Smooth fade transition */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    resize: none; /* Remove resizable feature */
+    overflow-y: auto; /* Enable vertical scrolling */
+    font-family: "Rubik", sans-serif; /* Match font with the rest of the UI */
+    font-size: 16px; /* Adjust font size */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Add inner shadow */
+    height: auto; /* Set initial height to auto */
+    min-height: 5em; /* Minimum height to fit 5 lines */
+    max-height: 10em; /* Maximum height to fit 10 lines */
+    padding-right: 20px; /* Add padding to prevent text from being covered by scrollbar */
+    margin: 0; /* Remove margin to prevent gap */
+    pointer-events: auto; /* Ensure the input field is interactable */
+}
+
+textarea::placeholder {
+    color: #aaa; /* Lighter placeholder color */
+}
+
+button {
+    background-color: var(--send-btn-bg);
+    color: var(--send-btn-text);
+    border: none;
+    padding: 12px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Add transform transition */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    margin-left: 6px; /* Add margin for spacing */
+    margin-right: 0px; /* Add margin for spacing */
+}
+
+button:hover {
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6; /* Reduce opacity for disabled state */
+    transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+
+button:disabled:hover {
+    transform: none; /* Disable hover animation */
+}
+
+.light-mode button:disabled {
+    background: #ccc; /* Light mode disabled button color */
+}
+
+.dark-mode button:disabled {
+    background: #555; /* Dark mode disabled button color */
+}
+
+.switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+input:checked + .slider {
+    background-color: #4caf50;
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px; /* Ensure footer is below the chatbox */
+}
+
+.footer-icons {
+    display: inline-block;
+}
+
+.footer-icons a {
+    text-decoration: none;
+    font-size: 18px;
+    color: inherit;
+    transition: color 0.3s ease;
+    margin: 0 5px;
+}
+
+.footer-icons a:hover {
+    color: #4caf50;
+}
+
+.greeting-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.typing-greeting {
+    font-size: 32px; /* Larger font size for the new greeting */
+    color: var(--send-btn-bg); /* Green color like the buttons */
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0 auto; /* Center horizontally */
+}
+
+.blinking-cursor {
+    border-right: 3px solid var(--send-btn-bg); /* Blinking cursor effect */
+    animation: blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 30ch; } /* Adjust the width based on the length of the text */
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: var(--send-btn-bg); }
+}
+
+#mobileOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay-bg); /* Use the mode-specific variable */
+    color: var(--input-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5rem;
+    font-family: 'Rubik', sans-serif;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* Prevent interaction when hidden */
+    padding: 20px; /* Add padding around the text */
+    box-sizing: border-box; /* Ensure padding doesn't affect width/height */
+    z-index: 9999;
+}
+
+/* Apply the animations to the sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px; /* Sidebar width when expanded */
+    height: 100%;
+    background-color: var(--chat-bg); 
+    color: var(--input-text);
+    display: flex; /* Enable Flexbox */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: space-between; /* Push footer to the bottom */
+    overflow-x: hidden;
+    transform: translateX(-100%); /* Initially hidden */
+    z-index: 1000; /* Ensure it appears above other elements */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+    transition: transform 0.3s ease; /* Smooth transition for open/close */
+    will-change: transform; /* Optimize for transform animations */
+    visibility: hidden; /* Hide the sidebar initially */
+}
+
+.sidebar.open {
+    transform: translateX(0); /* Show the sidebar */
+    visibility: visible; /* Make it visible when open */
+    transition: transform 0.3s ease, visibility 0s 0s; /* Smooth transition */
+}
+
+.sidebar:not(.open) {
+    visibility: hidden; /* Ensure it's hidden when closed */
+    transition: transform 0.3s ease, visibility 0s 0.3s; /* Delay visibility change */
+}
+
+/* Center the Viewing Mode Toggle */
+.sidebar .viewing-mode-container {
+    display: flex; /* Use Flexbox for centering */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    padding-top: 20px;
+    text-align: center;
+    border-top: 1px solid var(--divider-color); /* Use dynamic divider color */
+    margin-top: auto; /* Push it to the bottom of the sidebar content */
+}
+
+.sidebar-toggle {
+    position: fixed;
+    top: 3%; /* Center vertically */
+    left: calc(270px); /* Move slightly to the right */
+    transform: translate(-50%, -50%); /* Adjust position to center the button */
+    background-color: #4caf50; /* Green background */
+    color: white; /* White arrow */
+    border: none;
+    padding: 10px;
+    border-radius: 50%; /* Make it a circle */
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s ease, left 0.3s ease; /* Smooth transition for position and scale */
+}
+
+/* When the sidebar is hidden, move the toggle button to the left */
+.sidebar:not(.open) + .sidebar-toggle {
+    left: calc(20px); 
+}
+
+/* Rotate the arrow when the sidebar is open */
+.sidebar.open + .sidebar-toggle i {
+    transform: rotate(-180deg); /* Rotate the arrow */
+    transition: transform 0.3s ease; /* Add 5 seconds animation */
+}
+
+/* Reset the arrow rotation when the sidebar is closed */
+.sidebar:not(.open) + .sidebar-toggle i {
+    transform: rotate(0deg); /* Reset rotation */
+    transition: transform 0.3s ease; /* Add 5 seconds animation */
+}
+
+/* Center the arrow inside the circle */
+.sidebar-toggle i {
+    font-size: 16px; /* Adjust the size of the arrow */
+    line-height: 1; /* Ensure proper alignment */
+}
+
+/* Hover effect for the toggle button */
+.sidebar-toggle:hover {
+    transform: translate(-50%, -50%) scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* Sidebar Header */
+.sidebar-header {
+    text-align: center; /* Center the text horizontally */
+    font-size: 1em; /* Adjust font size for better visibility */
+    font-weight: bold; /* Make the text bold */
+    border-bottom: 1px solid var(--divider-color); /* Use dynamic divider color */
+    color: #4caf50; /* Use your theme's text color */
+    transition: color 0.3s ease, font-size 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
+}
+
+.sidebar-header:hover {
+    font-size: 1.2em; 
+    color: var(--send-btn-bg); /* Change text color to highlight */
+    border-color: var(--send-btn-bg); /* Change border color */
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 20px;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    margin: 15px 0;
+}
+
+.sidebar-menu a {
+    text-decoration: none;
+    color: var(--input-text);
+    font-size: 18px;
+    transition: none !important;
+}
+
+.sidebar-menu a:hover {
+    color: var(--send-btn-bg); /* Highlight on hover */
+}
+
+/* Submenu styles */
+.submenu {
+    list-style: none;
+    padding-left: 20px;
+    margin: 0;
+    height: 0; /* Initially hidden */
+    overflow: hidden; /* Hide content when collapsed */
+    transition: height 0.3s ease; /* Smooth height transition */
+}
+
+/* Show submenu when active */
+.submenu.active {
+    height: auto; /* Automatically adjust height based on content */
+}
+
+.submenu li {
+    margin: 15px 0;
+}
+
+.sidebar-menu li a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.sidebar-menu li a:hover {
+    color:#4caf50; /* Highlight color on hover */
+}
+
+/* Arrow styles */
+.arrow {
+    font-size: 0.8em;
+    margin-left: 5px;
+    display: inline-block; /* Ensure the arrow is treated as an inline-block element */
+    transition: transform 0.3s ease; /* Smooth rotation */
+}
+
+/* Rotate arrow when submenu is active */
+.rotated {
+    transform: rotate(-180deg); /* Rotate downward arrow to point upward */
+}
+
+.sidebar footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: var(--input-text);
+    border-top: 1px solid var(--divider-color); /* Use dynamic divider color */
+    transition: color 0.3s ease, font-size 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
+}
+
+.sidebar footer .footer-icons {
+    margin-top: 10px;
+}
+
+.sidebar footer .footer-icons a {
+    text-decoration: none;
+    font-size: 18px;
+    margin: 0 5px;
+    transition: none !important;
+}
+
+.sidebar footer .footer-icons a:hover {
+    color: #4caf50; /* Highlight on hover */
+}
+
+/* Global scrollbar styles */
+*::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--input-bg); /* Background of the scrollbar track */
+    border-radius: 10px; /* Rounded corners for the track */
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--send-btn-bg); /* Green color for the scrollbar thumb */
+    border-radius: 10px; /* Rounded corners for the thumb */
+    border: 2px solid var(--input-bg); /* Padding around the thumb */
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin; /* Thin scrollbar */
+    scrollbar-color: var(--send-btn-bg) var(--input-bg); /* Thumb and track colors */
+}
+
+/* Profile Container */
+.profile-container {
+    position: absolute;
+    top: 10px; /* Adjust vertical position */
+    right: 10px; /* Adjust horizontal position */
+    display: flex;
+    align-items: center; /* Align text and image vertically */
+    gap: 10px; /* Space between text and profile picture */
+    font-family: "Rubik", sans-serif; /* Match the font with the rest of the UI */
+    font-size: 16px; /* Adjust font size */
+    color: var(--input-text); /* Use theme text color */
+}
+
+/* Profile Picture Placeholder */
+.profile-placeholder {
+    width: 40px; /* Size of the placeholder */
+    height: 40px;
+    border-radius: 50%; /* Make it circular */
+    overflow: hidden; /* Ensure the image fits within the circle */
+    background-color: #ccc; /* Fallback background color */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-placeholder img {
+    width: 100%; /* Ensure the image fills the container */
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio and cover the container */
+}
+
+/* Greeting Text */
+.greeting-text {
+    font-weight: 500; /* Slightly bold text */
+    color: var(--input-text); /* Use theme text color */
+    transition: 0.3s ease; /* Smooth transition for color change */
+}
+
+/* Arina's profile picture inside the chat bubble */
+.arina-profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px; /* Add space between the picture and the text */
+    flex-shrink: 0; /* Prevent the image from shrinking */
+}
+
+/* User's profile picture on the top right */
+.user-profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover; /* Ensure the image fits within the circle */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+}
+
+/* Center all .page (except chatPage) elements vertically and horizontally */
+.page:not(#chatPage) {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;    /* Center vertically */
+    height: 100vh;          /* Full viewport height */
+    text-align: center;     /* Center text inside the element */
+    font-size: 2rem;        /* Adjust font size as needed */
+}
+
+.page .content {
+    text-align: center; /* Ensure text inside the content is centered */
+}
+
+/* Center content inside #chatPage */
+#chatPage {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;    /* Center vertically */
+    height: 100vh;          /* Full viewport height */
+    width: 100vw;           /* Full viewport width */
+    flex-direction: column; /* Stack children vertically */
+    margin: 0;              /* Remove any default margin */
+    padding: 0;             /* Remove any default padding */
+    box-sizing: border-box; /* Include padding and border in width/height */
+    overflow: hidden;       /* Prevent any overflow issues */
+}
+
+/* Ensure the wrapper inside #chatPage is centered */
+#chatPage .chat-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center;     /* Center content horizontally */
+    width: 100%;             /* Full width */
+    max-width: 800px;        /* Optional: Limit the width */
+    padding: 20px;           /* Add padding for spacing */
+    box-sizing: border-box;  /* Include padding in width/height */
+    text-align: center;      /* Center text inside the wrapper */
+    margin: 0 auto;          /* Center the wrapper horizontally */
+    height: 100%;            /* Ensure the wrapper takes full height of the parent */
+}
+
+/* Main content container */
+#mainContent {
+    transition: margin-left 0.3s ease, width 0.3s ease; /* Smooth transition */
+    margin: 0 auto; /* Center horizontally */
+    display: flex; /* Enable Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width: calc(100% - 250px); /* Default width when sidebar is open */
+}
+
+/* When the sidebar is closed */
+.sidebar:not(.open) ~ #mainContent {
+    margin-left: 0; /* Reset margin */
+    width: 100%; /* Full width */
+}
+
+/* When the sidebar is open */
+.sidebar.open ~ #mainContent {
+    margin-left: 250px; /* Match the sidebar width */
+    width: calc(100% - 250px); /* Adjust width dynamically */
+}
+
+#sidebar {
+    position: fixed;
+}
+
+/* Profile Popup Styles */
+.profile-popup {
+    position: absolute;
+    top: 60px; /* Adjust based on the profile container's position */
+    right: 10px;
+    background-color: var(--chat-bg); /* Use theme background color */
+    border: 1px solid var(--divider-color); /* Use theme divider color */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    opacity: 0; /* Start hidden */
+    visibility: hidden; /* Prevent interaction when hidden */
+    z-index: 1000;
+    width: 200px;
+    color: var(--input-text); /* Use theme text color */
+    transition: opacity 0.3s, visibility 0.3s, background-color 0.3s, color 0.3s; /* Unified transition */
+}
+
+.profile-popup.show {
+    opacity: 1; /* Fully visible */
+    visibility: visible; /* Allow interaction */
+}
+
+.profile-popup ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-popup li {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s; /* Unified transition */
+}
+
+.profile-popup li:hover {
+    background-color: var(--input-bg); /* Use theme input background color */
+}
+
+.profile-popup a {
+    text-decoration: none;
+    color: inherit; /* Inherit theme text color */
+    transition: color 0.3s; /* Unified transition */
+}
+
+.aku-container {
+    background-color: var(--chat-bg);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    margin: 20px auto;
+    overflow-y: auto;
+    color: var(--input-text);
+}
+
+.aku-container h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: var(--send-btn-bg);
+}
+
+.aku-container label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block;
+    color: var(--input-text);
+}
+
+.aku-container .form-group {
+    margin-bottom: 20px;
+}
+
+.aku-container input[type="text"], .aku-container input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--divider-color);
+    border-radius: 5px;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease; /* Add smooth color fade */;
+}
+
+.aku-container input[type="text"]:focus, .aku-container input[type="number"]:focus {
+    border-color: var(--send-btn-bg);
+    outline: none;
+}
+
+.aku-container .input-with-button {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.aku-container .btn-tambah,
+.aku-container .btn-hitung,
+.aku-container .btn-export,
+.aku-container .btn-import,
+.aku-container .btn-toggle {
+    background-color: var(--send-btn-bg);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.aku-container .btn-tambah:hover,
+.aku-container .btn-hitung:hover,
+.aku-container .btn-export:hover,
+.aku-container .btn-import:hover,
+.aku-container .btn-toggle:hover {
+    background-color: #388e3c;
+}
+
+.aku-container table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    border: 1px solid var(--divider-color);
+}
+
+.aku-container table th,
+.aku-container table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid var(--divider-color);
+}
+
+.aku-container table th {
+    background-color: var(--send-btn-bg);
+    color: white;
+    font-weight: 500;
+}
+
+.aku-container table td {
+    background-color: var(--chat-bg);
+}
+
+.aku-container .popup-content {
+    background-color: var(--chat-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+    color: var(--input-text);
+}
+
+.aku-container .popup .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--input-text);
+}
+
+/* Ensure uniform spacing for buttons */
+.aku-container button {
+    margin-top: 10px;
+}
+
+/* Styling for info buttons */
+.aku-container .info-btn {
+    background: none;
+    border: none;
+    color: var(--send-btn-bg);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.aku-container .info-btn:hover {
+    color: #388e3c;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none; /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: var(--chat-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 90%;
+    position: relative;
+}
+
+.popup .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--input-text);
+}
+
+.popup.hidden {
+    display: none; /* Ensure hidden class hides the pop-up */
+}
+
+.aku-container input[readonly] {
+    background-color: var(--input-bg);
+    color: var(--placeholder-color); /* Use theme-specific placeholder color */
+    cursor: not-allowed; /* Show disabled pointer */
+    border: 1px solid var(--divider-color) !important; /* Use theme-specific border color */
+    box-shadow: none; /* Remove any glow effect */
+}
+
+.aku-container input[readonly]::placeholder {
+    color: var(--placeholder-color); /* Use theme-specific placeholder color */
+    cursor: not-allowed; /* Show disabled pointer for placeholder */
+}
+
+.light-mode, .dark-mode {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chat-container, .chat-box, .sidebar, .aku-container, .popup-content, .profile-popup {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button, input, textarea, table, th, td {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input, textarea {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, textarea:focus {
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    border-color: var(--send-btn-bg);
+    box-shadow: 0 0 5px var(--send-btn-bg);
+}
+
+input, textarea, button {
+    font-family: "Rubik", sans-serif; /* Unified font */
+    font-size: 16px; /* Unified font size */
+    color: var(--input-text); /* Unified text color */
+    box-sizing: border-box; /* Ensure consistent box model */
+    border-radius: 5px; /* Unified border radius */
+    padding: 10px; /* Unified padding */
+    border: 1px solid var(--divider-color); /* Unified border style */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, textarea:focus, button:focus {
+    outline: none; /* Remove default outline */
+    border-color: var(--send-btn-bg); /* Highlight border on focus */
+    box-shadow: 0 0 5px var(--send-btn-bg); /* Add focus shadow */
+}
+
+textarea {
+    resize: none; /* Disable resizing for textareas */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+input::placeholder, textarea::placeholder {
+    color: var(--placeholder-color); /* Unified placeholder color */
+    font-style: italic; /* Optional: Italicize placeholder text */
+}

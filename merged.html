@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKU - Analisis Kelayakan Usaha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <style>
+        /* Placeholder for CSS */
+    </style>
+</head>
+<body>
+    <header>
+        AKU - Analisis Kelayakan Usaha
+    </header>
+
+    <div class="container">
+        <h2 class="bold">Input Data</h2>
+
+        <div class="form-group">
+            <label>Investment Cost (Biaya Investasi)
+                <button class="info-btn" data-info="
+                📌 <strong>Apa itu Investment Cost?</strong><br><br>
+                Investment Cost adalah biaya awal yang harus dikeluarkan untuk memulai bisnis sebelum bisnis mulai beroperasi dan menghasilkan pendapatan. Biaya ini umumnya termasuk pembelian aset, peralatan, modal kerja, dan perizinan usaha.<br><br>
+                
+                💡 <strong>Contoh Investment Cost:</strong><br>
+                &bull; Pembelian mesin produksi untuk usaha manufaktur.<br>
+                &bull; Renovasi tempat usaha, seperti restoran atau toko.<br>
+                &bull; Biaya pendaftaran dan perizinan usaha.<br>
+                &bull; Pembelian stok awal bahan baku sebelum bisnis berjalan.<br><br>
+                
+                📢 <strong>Catatan:</strong> Investment Cost biasanya dibayarkan satu kali di awal dan tidak termasuk dalam biaya operasional bulanan.
+                ">ⓘ</button>
+            </label>
+            <div class="input-with-button">
+                <input type="number" id="investment" placeholder="Klik tombol [Tambahkan]..." readonly>
+                <button class="btn-tambah" onclick="openTablePopup('investment')">Tambahkan</button>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Operational Cost per Bulan (Biaya Operasional per Bulan)
+                <button class="info-btn" data-info="
+                📌 <strong>Apa itu Operational Cost?</strong><br><br>
+                Operational Cost adalah biaya yang harus dikeluarkan setiap bulan untuk menjalankan bisnis. Ini mencakup semua pengeluaran rutin yang dibutuhkan agar usaha bisa terus berjalan.<br><br>
+                
+                💡 <strong>Contoh Biaya Operasional:</strong><br>
+                &bull; Gaji karyawan.<br>
+                &bull; Bahan baku untuk produksi.<br>
+                &bull; Listrik, air, dan internet.<br>
+                &bull; Sewa tempat usaha.<br><br>
+                
+                📢 <strong>Catatan:</strong> Biaya operasional berbeda dari investasi awal karena dikeluarkan secara berkala (bulanan).
+                ">ⓘ</button>
+            </label>
+            <div class="input-with-button">
+                <input type="number" id="operational" placeholder="Klik tombol [Tambahkan]..." readonly>
+                <button class="btn-tambah" onclick="openTablePopup('operational')">Tambahkan</button>
+            </div>
+        </div>        
+
+        <div class="form-group">
+            <label>Biaya Produksi per Unit 
+                <button class="info-btn" data-info="
+                📌 <strong>Apa itu Biaya Produksi per Unit?</strong><br><br>
+                Biaya produksi per unit adalah biaya yang harus dikeluarkan untuk memproduksi satu unit barang atau jasa. Ini mencakup semua biaya langsung yang terkait dengan produksi.<br><br>
+                
+                💡 <strong>Komponen Biaya Produksi per Unit:</strong><br>
+                &bull; Bahan baku, seperti tepung dan gula untuk produksi roti.<br>
+                &bull; Tenaga kerja langsung.<br>
+                &bull; Biaya listrik atau penggunaan mesin.<br><br>
+                
+                💡 <strong>Contoh:</strong> Jika biaya bahan baku dan produksi satu roti adalah Rp 15.000, maka Rp 15.000 adalah biaya produksi per unit.<br><br>
+                
+                📢 <strong>Catatan:</strong> Pastikan harga jual lebih tinggi dari biaya produksi agar bisnis tidak merugi!
+                ">ⓘ</button>
+            </label>
+            <input type="number" id="biayaProduksi" placeholder="Masukkan biaya produksi per unit...">
+        </div>
+
+        <div class="form-group">
+            <label>Volume Penjualan per Bulan 
+                <button class="info-btn" data-info="
+                📌 <strong>Apa itu Volume Penjualan per Bulan?</strong><br><br>
+                Volume penjualan per bulan adalah jumlah unit produk yang diperkirakan terjual dalam satu bulan. Angka ini penting karena menentukan total pendapatan dan profitabilitas usaha.<br><br>
+                
+                💡 <strong>Cara Menentukan Volume Penjualan:</strong><br>
+                &bull; Gunakan data penjualan sebelumnya (jika bisnis sudah berjalan).<br>
+                &bull; Lakukan riset pasar untuk memperkirakan permintaan.<br>
+                &bull; Sesuaikan dengan kapasitas produksi agar bisa memenuhi target penjualan.<br><br>
+                
+                💡 <strong>Contoh:</strong> Jika bisnis kamu menjual 500 botol jus buah setiap bulan, maka volume penjualan per bulan adalah 500 unit.<br><br>
+                
+                📢 <strong>Catatan:</strong> Jika volume penjualan meningkat, maka profit juga meningkat, tetapi pastikan bisnis mampu memenuhi permintaan pasar!
+                ">ⓘ</button>
+            </label>
+            <input type="number" id="volume" placeholder="Masukkan volume penjualan per bulan...">
+        </div>
+
+        <div class="form-group">
+            <label>Markup (%) 
+                <button class="info-btn" data-info="
+                📌 <strong>Apa itu Markup?</strong><br><br>
+                Markup adalah persentase keuntungan yang ditambahkan ke biaya produksi untuk menentukan harga jual.<br><br>
+        
+                💡 <strong>Cara Menghitung:</strong><br>
+                Harga Jual = Biaya Produksi + (Markup% × Biaya Produksi)<br><br>
+        
+                📢 <strong>Catatan:</strong> 
+                - Markup yang terlalu rendah bisa membuat bisnis merugi.<br>
+                - Markup yang terlalu tinggi bisa membuat produk sulit bersaing di pasar.
+                ">ⓘ</button>
+            </label>
+            <input type="number" id="markup" placeholder="Masukkan persentase markup...">
+        </div>
+
+        <button onclick="hitungAnalisis()" class="btn-hitung">Hitung</button>
+        <button onclick="exportToXlsx()" class="btn-export">Ekspor ke XLSX</button>
+        <input type="file" id="fileInput" accept=".xlsx" style="display: none;" onchange="importFromXlsx(event)">
+        <button onclick="document.getElementById('fileInput').click()" class="btn-import">Impor dari XLSX</button>
+
+        <h2 class="hasil-analisis">Hasil Analisis</h2>
+        <button onclick="toggleFormatBep()" class="btn-toggle">Ubah Format BEP</button>
+        <table>
+            <tr><td>Harga Pokok Produksi (HPP) per unit</td><td id="hpp">-</td></tr>
+            <tr><td>Harga Jual per Unit</td><td id="hargaJual">-</td></tr>
+            <tr><td>Revenue (Pendapatan)</td><td id="revenue">-</td></tr>
+            <tr><td>Profit (Laba Bersih)</td><td id="profit">-</td></tr>
+            <tr><td>ROI (Return on Investment)</td><td id="roi">-</td></tr>
+            <tr><td>BEP (Break Even Point)</td><td id="bep">-</td></tr>
+            <tr><td>Payback Period</td><td id="pp">-</td></tr>
+            <tr><td>Profit Margin</td><td id="profit-margin">-</td></tr>
+            <p><strong>Metode Perhitungan:</strong> <span id="metode"></span></p>
+        </table>
+    </div>
+
+    <!-- Pop-up -->
+    <div id="popup">
+        <div id="popup-content">
+            <span id="close-popup"><i class="fas fa-times"></i></span>
+            <p id="popup-text"></p>
+        </div>
+    </div>
+
+    <!-- Pop-up Info -->
+    <div id="popupInfo" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" style="display: none;">
+        <div class="bg-white p-4 rounded-lg shadow-lg relative">
+            <button id="closePopup" class="absolute top-2 right-2 text-gray-500 hover:text-red-500">
+                <i class="fas fa-xmark"></i> <!-- Ikon "X" -->
+            </button>
+            <p id="popupText">Isi informasi di sini...</p>
+        </div>
+    </div>
+
+    <!-- Pop-up Investment Cost -->
+    <div id="investmentPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeTablePopup('investmentPopup')">&times;</span>
+            <h2 class="bold">Investment Cost (Biaya Investasi)</h2>
+            <button class="btn-tambah" onclick="addRow('investmentTable')">Tambah Baris</button>
+            <table id="investmentTable">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Kuantitas</th>
+                        <th>Harga (Rp)</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pop-up Operational Cost -->
+    <div id="operationalPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeTablePopup('operationalPopup')">&times;</span>
+            <h2 class="bold">Operational Cost per Bulan (Biaya Operatsional per Bulan)</h2>
+            <button class="btn-tambah" onclick="addRow('operationalTable')">Tambah Baris</button>
+            <table id="operationalTable">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Kuantitas</th>
+                        <th>Harga (Rp)</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="text-center mt-5 text-gray-700">
+        <p>Dibuat oleh adsurkasur (dengan bantuan AI)</p>
+        <div class="footer-icons flex justify-center mt-2 space-x-3">
+            <a href="https://twitter.com/adsurkasur" target="_blank">
+                <i class="fab fa-x-twitter"></i> <!-- Ikon Twitter sesuai referensi -->
+            </a>
+            <a href="https://github.com/adsurkasur" target="_blank">
+                <i class="fab fa-github"></i> <!-- Ikon GitHub -->
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Variabel global untuk menyimpan format BEP (default: unit)
+        let isBepRupiah = false;
+
+        // Fungsi toggle format BEP (unit <-> rupiah)
+        function toggleFormatBep() {
+            isBepRupiah = !isBepRupiah;
+            hitungAnalisis();
+        }
+
+        // Fungsi untuk memvalidasi angka
+        function isValidInput(value) {
+            return !isNaN(value) && value >= 0;
+        }
+
+        function hitungAnalisis() {
+            let investment = getValue("investment"); // Biaya investasi awal
+            let operational = getValue("operational"); // Biaya operasional bulanan
+            let cost = getValue("biayaProduksi"); // Biaya produksi per unit
+            let volume = getValue("volume"); // Volume produksi / penjualan
+            let markup = parseFloat(document.getElementById("markup").value); // Markup % dari HPP
+
+            // Validasi input
+            if (![investment, operational, cost, volume, markup].every(isValidInput)) {
+                alert("Harap masukkan angka yang valid! Nilai tidak boleh negatif.");
+                return;
+            }
+
+            if (volume <= 0) {
+                alert("Harap masukkan volume penjualan yang valid dan lebih besar dari 0.");
+                return;
+            }
+
+            if (cost > 0 && volume === 0) {
+                alert("Jika menggunakan biaya produksi, volume tidak boleh 0!");
+                return;
+            }
+
+            // **Perhitungan HPP**
+            let hpp = cost + (operational / Math.max(volume, 1));
+            let metode = "Menggunakan perhitungan berdasarkan biaya produksi dan operasional per unit.";
+
+            // **Perhitungan Harga Jual**
+            let hargaJual = hpp * (1 + (markup / 100));
+
+            if (hargaJual <= hpp) {
+                alert("Harga jual harus lebih tinggi dari HPP untuk menghitung BEP!");
+                return;
+            }
+
+            // **Perhitungan Profit**
+            let profit = volume * (hargaJual - hpp);
+            let roi = "Tidak valid", pp = "Tidak valid";
+
+            if (investment > 0 && profit > 0) {
+                roi = (profit / investment * 100).toFixed(2) + "%";
+            }
+
+            // **Perhitungan Payback Period (PP)**
+            if (investment > 0 && profit > 0) {
+                let totalHari = Math.round((investment / profit) * 30);
+                let ppTahun = Math.floor(totalHari / 365);
+                totalHari %= 365;
+                let ppBulan = Math.floor(totalHari / 30);
+                totalHari %= 30;
+                let ppMinggu = Math.floor(totalHari / 7);
+                let ppHari = totalHari % 7;
+
+                pp = `${ppTahun} tahun ${ppBulan} bulan ${ppMinggu} minggu ${ppHari} hari`;
+            }
+
+            // **Perhitungan BEP**
+            let bepUnit = "Tidak valid", bepRupiah = "Tidak valid";
+
+            if (hargaJual > hpp && investment > 0) {
+                bepUnit = (investment / (hargaJual - hpp)).toFixed(2);
+                bepRupiah = formatRupiah(investment / (hargaJual - hpp) * hargaJual);
+            } else if (investment <= 0 && operational > 0) {
+                bepUnit = (operational / (hargaJual - hpp)).toFixed(2);
+                bepRupiah = formatRupiah(operational / (hargaJual - hpp) * hargaJual);
+            }
+
+            // **Perhitungan Revenue & Profit Margin**
+            let revenue = hargaJual * volume;
+            let profitMargin = revenue > 0 ? ((profit / revenue) * 100).toFixed(2) + "%" : "Tidak valid";
+
+            // **Tampilkan hasil perhitungan**
+            setText("hargaJual", formatRupiah(hargaJual));
+            setText("revenue", formatRupiah(revenue));
+            setText("profit", formatRupiah(profit));
+            setText("bep", isBepRupiah ? bepRupiah : `${bepUnit} unit`);
+            setText("hpp", formatRupiah(hpp));
+            setText("roi", roi);
+            setText("pp", pp);
+            setText("profit-margin", profitMargin);
+            setText("metode", metode);
+        }
+
+        // Fungsi untuk format Rupiah
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 2 }).format(number);
+        }
+
+        // Fungsi mendapatkan nilai input dengan ID tertentu
+        function getValue(id) {
+            let el = document.getElementById(id);
+            return el ? parseFloat(el.value) || 0 : 0;
+        }
+
+        // Fungsi mengubah teks dalam elemen dengan ID tertentu
+        function setText(id, text) {
+            let el = document.getElementById(id);
+            if (el) el.textContent = text;
+        }
+
+        // Fungsi untuk update perhitungan berdasarkan data tabel
+        function updateCalculations() {
+            let totalUnit = getValue("totalUnit");
+            let biayaProduksi = getValue("biayaProduksi");
+            let hppValue = totalUnit > 0 ? biayaProduksi / totalUnit : 0;
+
+            setText("hpp", totalUnit > 0 ? formatRupiah(hppValue) : "Tidak valid");
+            setText("bep", hppValue > 0 ? (getValue("investment") / hppValue).toFixed(2) : "Tidak valid");
+        }
+
+        // Fungsi untuk tabel (tambah/hapus/update total)
+        function addRow(tableId) {
+            let table = document.querySelector(`#${tableId} tbody`);
+            let row = table.insertRow();
+            row.innerHTML = `
+                <td><input type="text"></td>
+                <td><input type="number" oninput="updateTotalCost('${tableId}')"></td>
+                <td><input type="number" oninput="updateTotalCost('${tableId}')"></td>
+                <td><button class="btn-hapus" onclick="deleteRow(this, '${tableId}')">Hapus</button></td>
+            `;
+        }
+
+        function deleteRow(button, tableId) {
+            button.parentElement.parentElement.remove();
+            updateTotalCost(tableId);
+        }
+
+        function updateTotalCost(tableId) {
+            let total = 0;
+            document.querySelectorAll(`#${tableId} tbody tr`).forEach(row => {
+                let qty = row.cells[1].querySelector("input").value || 0;
+                let price = row.cells[2].querySelector("input").value || 0;
+                total += (parseFloat(qty) * parseFloat(price));
+            });
+            document.getElementById(tableId === "investmentTable" ? "investment" : "operational").value = total;
+        }
+
+        // Fungsi untuk membuka/menutup tabel pop-up
+        function openTablePopup(type) {
+            let popup = document.getElementById(type === 'investment' ? "investmentPopup" : "operationalPopup");
+            if (popup) {
+                popup.style.display = "block";
+                document.body.style.overflow = "hidden";
+            }
+        }
+
+        function closeTablePopup(type) {
+            let popup = document.getElementById(type);
+            if (popup) {
+                popup.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        }
+
+        // Menutup pop-up jika klik di luar kontennya (termasuk popup info)
+        document.querySelectorAll(".popup, #popupInfo, #investmentPopup, #operationalPopup").forEach(popup => {
+            popup.addEventListener("click", function(event) {
+                if (event.target === this) {
+                    this.style.display = "none"; // Menyembunyikan popup
+                    document.body.style.overflow = "auto";
+                }
+            });
+        });
+
+        // Menutup pop-up jika tombol 'Esc' ditekan
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                document.querySelectorAll(".popup, #popupInfo, #investmentPopup, #operationalPopup").forEach(popup => {
+                    popup.style.display = "none"; // Menyembunyikan popup
+                    popup.classList.add("hidden"); // Ensure the hidden class is added
+                });
+                document.body.style.overflow = "auto";
+            }
+        });
+
+        // Event listener untuk tombol "info"
+        document.querySelectorAll(".info-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                let infoText = this.getAttribute("data-info");
+                showPopupInfo(infoText);
+            });
+        });
+
+        // Fungsi untuk menampilkan pop-up info
+        function showPopupInfo(text) {
+            let popup = document.getElementById("popupInfo");
+            let popupText = document.getElementById("popupText");
+            popupText.innerHTML = text;
+            popup.classList.remove("hidden");
+            popup.style.display = "flex"; // Ensure the popup is displayed
+        }
+
+        // Event listener untuk menutup pop-up
+        document.getElementById("closePopup").addEventListener("click", function () {
+            let popup = document.getElementById("popupInfo");
+            popup.classList.add("hidden");
+            popup.style.display = "none"; // Ensure the popup is hidden
+        });
+
+        function exportToXlsx() {
+            // Create a new workbook and worksheet
+            let wb = XLSX.utils.book_new();
+
+            // Export Investment Table
+            let investmentTable = document.querySelector("#investmentTable tbody");
+            let investmentData = [["Nama", "Kuantitas", "Harga (Rp)"]];
+            investmentTable.querySelectorAll("tr").forEach(row => {
+                let item = row.cells[0].querySelector("input").value;
+                let qty = parseFloat(row.cells[1].querySelector("input").value) || 0;
+                let price = parseFloat(row.cells[2].querySelector("input").value) || 0;
+                investmentData.push([item, qty, price]);
+            });
+            if (investmentData.length > 1) { // Check if there are more than one data rows
+                let lastRow = investmentData.length + 1;
+                investmentData.push(["Total", { f: `SUM(B2:B${lastRow - 1})` }, { f: `SUM(C2:C${lastRow - 1})` }]);
+            }
+            let wsInvestment = XLSX.utils.aoa_to_sheet(investmentData);
+            XLSX.utils.book_append_sheet(wb, wsInvestment, "Tabel Investment Cost");
+
+            // Export Operational Table
+            let operationalTable = document.querySelector("#operationalTable tbody");
+            let operationalData = [["Nama", "Kuantitas", "Harga (Rp)"]];
+            operationalTable.querySelectorAll("tr").forEach(row => {
+                let item = row.cells[0].querySelector("input").value;
+                let qty = parseFloat(row.cells[1].querySelector("input").value) || 0;
+                let price = parseFloat(row.cells[2].querySelector("input").value) || 0;
+                operationalData.push([item, qty, price]);
+            });
+            if (operationalData.length > 1) { // Check if there are more than one data rows
+                let lastRow = operationalData.length + 1;
+                operationalData.push(["Total", { f: `SUM(B2:B${lastRow - 1})` }, { f: `SUM(C2:C${lastRow - 1})` }]);
+            }
+            let wsOperational = XLSX.utils.aoa_to_sheet(operationalData);
+            XLSX.utils.book_append_sheet(wb, wsOperational, "Tabel Operational Cost");
+
+            // Export Hasil Analisis
+            let investmentRowCount = document.querySelectorAll("#investmentTable tbody tr").length + 1; // +1 for header
+            let operationalRowCount = document.querySelectorAll("#operationalTable tbody tr").length + 1; // +1 for header
+
+            let investmentSumFormula = investmentRowCount > 2 ? `SUM('Tabel Investment Cost'!C2:C${investmentRowCount})` : `'Tabel Investment Cost'!C2`;
+            let operationalSumFormula = operationalRowCount > 2 ? `SUM('Tabel Operational Cost'!C2:C${operationalRowCount})` : `'Tabel Operational Cost'!C2`;
+
+        // BROKEN
+            let hasilAnalisisData = [
+                ["Parameter", "Nilai", "Unit"],
+                ["Investment", { f: investmentSumFormula }, "Rupiah"],
+                ["Operational", { f: operationalSumFormula }, "Rupiah"],
+                ["Biaya Produksi", { f: `'Tabel Investment Cost'!C2` }, "Rupiah"],
+                ["Volume", { f: `'Tabel Investment Cost'!B2` }, "unit"],
+                ["Markup", { f: `'Tabel Investment Cost'!B3` }, "%"],
+                ["HPP", { f: `'Hasil Analisis'!B3 + ('Hasil Analisis'!B2 / MAX('Hasil Analisis'!B4, 1))` }, "Rupiah"],
+                ["Harga Jual", { f: `'Hasil Analisis'!B7 * (1 + ('Hasil Analisis'!B6 / 100))` }, "Rupiah"],
+                ["Revenue", { f: `'Hasil Analisis'!B8 * 'Hasil Analisis'!B5` }, "Rupiah"],
+                ["Profit", { f: `'Hasil Analisis'!B9 - ('Hasil Analisis'!B7 * 'Hasil Analisis'!B5)` }, "Rupiah"],
+                ["ROI", { f: `IF('Hasil Analisis'!B2 > 0, ('Hasil Analisis'!B10 / 'Hasil Analisis'!B2) * 100, "Tidak valid")` }, "%"],
+                ["BEP", { f: `IF('Hasil Analisis'!B8 > 'Hasil Analisis'!B7, 'Hasil Analisis'!B2 / ('Hasil Analisis'!B8 - 'Hasil Analisis'!B7), "Tidak valid")` }, isBepRupiah ? "Rupiah" : "unit"],
+                ["Payback Period", { f: `IF('Hasil Analisis'!B2 > 0, ROUND(('Hasil Analisis'!B2 / 'Hasil Analisis'!B10) * 30, 0), "Tidak valid")` }, ""],
+                ["Profit Margin", { f: `IF('Hasil Analisis'!B9 > 0, ('Hasil Analisis'!B10 / 'Hasil Analisis'!B9) * 100, "Tidak valid")` }, "%"]
+            ];
+        // BROKEN
+
+            let wsHasilAnalisis = XLSX.utils.aoa_to_sheet(hasilAnalisisData);
+            XLSX.utils.book_append_sheet(wb, wsHasilAnalisis, "Hasil Analisis");
+
+            // Export the workbook to XLSX file
+            XLSX.writeFile(wb, "AKU_Analisis_Kelayakan_Usaha.xlsx");
+        }
+
+        function importFromXlsx(event) {
+            const file = event.target.files[0];
+            if (!file) {
+                alert("No file selected!");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+
+                // Import Investment Table
+                const wsInvestment = workbook.Sheets["Tabel Investment Cost"];
+                const investmentData = XLSX.utils.sheet_to_json(wsInvestment, { header: 1 });
+                updateTableFromData("investmentTable", investmentData);
+
+                // Import Operational Table
+                const wsOperational = workbook.Sheets["Tabel Operational Cost"];
+                const operationalData = XLSX.utils.sheet_to_json(wsOperational, { header: 1 });
+                updateTableFromData("operationalTable", operationalData);
+
+                // Import Hasil Analisis
+                const wsHasilAnalisis = workbook.Sheets["Hasil Analisis"];
+                const hasilAnalisisData = XLSX.utils.sheet_to_json(wsHasilAnalisis, { header: 1 });
+
+                if (hasilAnalisisData.length > 1) {
+                    setInputValue("investment", hasilAnalisisData[1][1] || "");
+                    setInputValue("operational", hasilAnalisisData[2][1] || "");
+                    setInputValue("biayaProduksi", hasilAnalisisData[3][1] || "");
+                    setInputValue("volume", hasilAnalisisData[4][1] || "");
+                    setInputValue("markup", hasilAnalisisData[5][1] || "");
+                    setText("hpp", hasilAnalisisData[6][1] || "");
+                    setText("hargaJual", hasilAnalisisData[7][1] || "");
+                    setText("revenue", hasilAnalisisData[8][1] || "");
+                    setText("profit", hasilAnalisisData[9][1] || "");
+                    setText("roi", hasilAnalisisData[10][1] || "");
+                    setText("bep", hasilAnalisisData[11][1] || "");
+                    setText("pp", hasilAnalisisData[12][1] || "");
+                    setText("profit-margin", hasilAnalisisData[13][1] || "");
+
+                    // Trigger recalculation after importing
+                    updateTotalCost("investmentTable");
+                    updateTotalCost("operationalTable");
+                    hitungAnalisis();
+                }
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+
+        function updateTableFromData(tableId, data) {
+            let table = document.querySelector(`#${tableId} tbody`);
+            table.innerHTML = ""; // Clear existing rows
+            data.slice(1).forEach(row => { // Skip header row
+                if (row[0] !== "Total") { // Exclude "Total" row
+                    let newRow = table.insertRow();
+                    newRow.innerHTML = `
+                        <td><input type="text" value="${row[0] || ''}"></td>
+                        <td><input type="number" value="${row[1] || 0}" oninput="updateTotalCost('${tableId}')"></td>
+                        <td><input type="number" value="${row[2] || 0}" oninput="updateTotalCost('${tableId}')"></td>
+                        <td><button class="btn-hapus" onclick="deleteRow(this, '${tableId}')">Hapus</button></td>
+                    `;
+                }
+            });
+            updateTotalCost(tableId); // Update total cost after importing
+        }
+
+        // Helper function to get the text content of an element by its ID
+        function getText(id) {
+            let el = document.getElementById(id);
+            return el ? el.textContent : "";
+        }
+
+        // Helper function to get the value of an input field by its ID
+        function getValue(id) {
+            let el = document.getElementById(id);
+            return el ? parseFloat(el.value) || 0 : 0;
+        }
+
+        // Helper function to set the value of an input field by its ID
+        function setInputValue(id, value) {
+            let el = document.getElementById(id);
+            if (el) {
+                el.value = value;
+            }
+        }
+
+        // Helper function to set the text content of an element by its ID
+        function setText(id, text) {
+            let el = document.getElementById(id);
+            if (el) {
+                el.textContent = text;
+            }
+        }
+
+    </script>
+</body>
+</html>
